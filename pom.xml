@@ -123,99 +123,14 @@
 
 	</dependencies>
 
-
-
-
-
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-codegen-maven-plugin</artifactId>
-                <version>${version.swagger.codegen}</version>
-                <configuration>
-                    <inputSpec>${marvel.url}</inputSpec>
-                    <configOptions>
-                        <sourceFolder>${generated-sources-java-path}</sourceFolder>
-                    </configOptions>
-                    <output>${generated-sources-path}</output>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>generate-swagger-javaclient</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                             <language>java</language>
-                           <!-- <packageName>${project.groupId}.marvel</packageName>
-                            <modelPackage>${project.groupId}.marvel.client.model</modelPackage>
-                            <apiPackage>${project.groupId}.marvel.client.api</apiPackage>
-                            <invokerPackage>${project.groupId}.marvel.client.invoker</invokerPackage>
-                            -->
-                            <generateApiTests>false</generateApiTests>
-                            <generateModelDocumentation>false</generateModelDocumentation>
-                            <generateApiDocumentation>false</generateApiDocumentation>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>build-helper-maven-plugin</artifactId>
-            <version>1.9.1</version>
-            <executions>
-                <!-- TODO for eclipse/m2e users: install the m2e connector 'buildhelper' by selecting 'Discover new m2e connectors' while hovering over the follwoing execution tag -->
-                <execution>
-                    <id>add-generated-source</id>
-                    <phase>initialize</phase>
-                    <goals>
-                        <goal>add-source</goal>
-                    </goals>
-                    <configuration>
-                        <sources>
-                            <source>${generated-sources-path}/${generated-sources-java-path}</source>
-                        </sources>
-                    </configuration>
-                </execution>
-            </executions>
-            </plugin>
         </plugins>
         <!-- the following is only necessary if you are using eclipse and m2e -->
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>io.swagger</groupId>
-                                        <artifactId>swagger-codegen-maven-plugin</artifactId>
-                                        <versionRange>[${version.swagger.codegen},)</versionRange>
-                                        <goals>
-                                            <goal>generate</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <execute />
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
 
 </project>
