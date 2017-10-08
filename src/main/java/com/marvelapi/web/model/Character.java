@@ -13,12 +13,21 @@ public class Character {
      * @param description
      * @param thumbnail
      */
-    public Character(Integer id, String name, String description, Thumbnail thumbnail) {
+    public Character(Integer id, String name, String description, Thumbnail thumbnail, Integer popularity) {
         super();
         this.id = id;
         this.name = name;
         this.description = description;
         this.thumbnail = thumbnail;
+        this.popularity = popularity;
+    }
+
+    /**
+     * @return the popularity
+     */
+    public Integer getPopularity() {
+
+        return popularity;
     }
 
     private Integer id;
@@ -28,6 +37,8 @@ public class Character {
     private String description;
 
     private Thumbnail thumbnail;
+
+    private Integer popularity;
 
     /**
      * @return the id

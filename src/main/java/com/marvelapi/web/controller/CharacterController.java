@@ -22,6 +22,7 @@ public class CharacterController {
     private CharacterIdentity characterIdentity;
 
 
+
     @RequestMapping(method = RequestMethod.GET)
     public Integer[] getAllCharacterIds() {
 

@@ -1,7 +1,7 @@
 # marvelapi
 
 
-from https://gateway.marvel.com:443/v1/public/characters?limit=100&apikey=746d7e48cbc8d37cf4dd63c53296c3c1
+from http://gateway.marvel.com/v1/public/characters?ts=1&apikey=746d7e48cbc8d37cf4dd63c53296c3c1&hash=16d47e4b2b2d98f55ee6f922f246e786
 
 
 Using the data.total (for instance 1491) calculate the number of calls by 1491/100 = 14,91 (round it Math.abs()). calls plus the inicial with offset equal to zero
@@ -16,15 +16,17 @@ AND collect the result (filtered by the necessary info???).
 5. Create the cache with the loaded data. The data strucure should be O(1) for performance of the API and thread safe. (DONE)
 
 Part 1.2 (/characters/{characterId})
-1. Create a Domain model with only id, name, description, thumbnail
-2. Create a service with getById
-2. Fecth characterId  parameter from the controller
+1. Create a Domain model with only id, name, description, thumbnail (DONE)
+2. Create a service with getById (DONE)
+2. Fecth characterId  parameter from the controller (DONE)
 
 Part 1.3 (add comics popularity to /characters/{characterId})
 
+https://gateway.marvel.com:443/v1/public/characters/1011334/comics?ts=1&apikey=746d7e48cbc8d37cf4dd63c53296c3c1&hash=16d47e4b2b2d98f55ee6f922f246e786
+12, therefore is the data from https://gateway.marvel.com:443/v1/public/characters
+
 0. do not create an thread per request. Use gouping approach
-1. for each commics do https://gateway.marvel.com:443/v1/public/characters/1009718/comics?apikey=746d7e48cbc8d37cf4dd63c53296c3c1
-2. get data.total and update the cache
+1. for each commics do get "comics.available" and update the cache
 
 Assumptions
 After the startup there all some scheduler that update the cache using Etags to understand if the data has changed

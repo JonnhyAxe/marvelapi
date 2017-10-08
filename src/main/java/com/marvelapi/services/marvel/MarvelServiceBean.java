@@ -53,7 +53,7 @@ public class MarvelServiceBean implements CharacterIdentity {
 
             Image image = t.getThumbnail();
             Thumbnail thumbnail = new Thumbnail().path(image.getPath()).extension(image.getExtension());
-            return new com.marvelapi.web.model.Character(t.getId(), t.getName(), t.getDescription(), thumbnail);
+            return new com.marvelapi.web.model.Character(t.getId(), t.getName(), t.getDescription(), thumbnail, t.getComics().getAvailable());
 
         }
     };

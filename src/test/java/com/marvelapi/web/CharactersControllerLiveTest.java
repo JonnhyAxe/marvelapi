@@ -88,6 +88,8 @@ public class CharactersControllerLiveTest {
         assertThat(character.getThumbnail(), notNullValue());
         assertThat(character.getThumbnail().getPath(), notNullValue());
         assertThat(characterDomain.getThumbnail().getPath(), equalTo(character.getThumbnail().getPath()));
+
+        assertThat(characterDomain.getPopularity(), equalTo(character.getComics().getAvailable()));
     }
 
 }
