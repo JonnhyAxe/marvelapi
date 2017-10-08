@@ -13,17 +13,19 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import com.marvelapi.config.MarvelAPIConfig;
 import com.marvelapi.services.marvel.interfaces.CharacterIdentity;
+import com.marvelapi.web.exceptions.CharactersNotFoundException;
 import com.marvelapi.web.model.Thumbnail;
 import com.swagger.marvelapi.services.marvel.model.Character;
 import com.swagger.marvelapi.services.marvel.model.CharacterDataWrapper;
 import com.swagger.marvelapi.services.marvel.model.Image;
 
 /**
- *
+ * CharacterIdentity implementation for Marvel API
  *
  */
 @Service
@@ -49,11 +51,15 @@ public class MarvelServiceBean implements CharacterIdentity {
     private Function<Character, com.marvelapi.web.model.Character> externalCharacterToMyCharacter = new Function<Character, com.marvelapi.web.model.Character>() {
 
         @Override
-        public com.marvelapi.web.model.Character apply(Character t) {
+        public com.marvelapi.web.model.Character apply(Character character) {
 
-            Image image = t.getThumbnail();
-            Thumbnail thumbnail = new Thumbnail().path(image.getPath()).extension(image.getExtension());
-            return new com.marvelapi.web.model.Character(t.getId(), t.getName(), t.getDescription(), thumbnail, t.getComics().getAvailable());
+            Image image = character.getThumbnail();
+            Thumbnail thumbnail = new Thumbnail();
+            if (Objects.nonNull(thumbnail)) {
+                thumbnail.path(image.getPath()).extension(image.getExtension());
+            }
+            return new com.marvelapi.web.model.Character(character.getId(), character.getName(), character.getDescription(), thumbnail,
+                    character.getComics().getAvailable());
 
         }
     };
@@ -61,25 +67,48 @@ public class MarvelServiceBean implements CharacterIdentity {
     @PostConstruct
     public void init(){
 
+        Integer totalCharacters = 0;
         restTemplate = new RestTemplate();
-
-        final CharacterDataWrapper response = getCharacters(0, marvelAPIConfig.getTs(), marvelAPIConfig.getApikey(), marvelAPIConfig.getHash());
-        Integer totalCharacters = response.getData().getTotal();
-
-        characters = new ConcurrentHashMap<>(totalCharacters);
-
-        int calls = totalCharacters != null ? (int) Math.round(totalCharacters / 100.00) : 0;
-        if (Objects.nonNull(totalCharacters) && calls > 0) {
-            response.getData().getResults().parallelStream().forEach(c -> characters.put(c.getId(), c));
-            IntStream.iterate(marvelAPIConfig.getOffset(), i -> i + marvelAPIConfig.getOffset()).limit(calls).forEach(ic);
-        }
         try {
-            executor.awaitTermination(90, TimeUnit.SECONDS);
+            final CharacterDataWrapper response = getCharacters(0, marvelAPIConfig.getTs(), marvelAPIConfig.getApikey(), marvelAPIConfig.getHash());
+
+            totalCharacters = response.getData().getTotal();
+
+            characters = new ConcurrentHashMap<>(totalCharacters);
+
+            int calls = totalCharacters != null ? (int) Math.round(totalCharacters / 100.00) : 0;
+            if (Objects.nonNull(totalCharacters) && calls > 0) {
+                response.getData().getResults().parallelStream().forEach(c -> characters.put(c.getId(), c));
+                IntStream.iterate(marvelAPIConfig.getOffset(), i -> i + marvelAPIConfig.getOffset()).limit(calls).forEach(ic);
+                executor.awaitTermination(90, TimeUnit.SECONDS);
+
+            }
         }
-        catch (InterruptedException ex) { // TODO: log exception
+        catch (InterruptedException | ResourceAccessException ex) { // TODO: log exception
             ex.printStackTrace();
         }
+    }
 
+    /**
+     * @param localOffset
+     *            value to start from
+     */
+    private void getCharactersAndCollect(final int localOffset) {
+
+        final CharacterDataWrapper localResponse = getCharacters(localOffset, marvelAPIConfig.getTs(), marvelAPIConfig.getApikey(),
+                marvelAPIConfig.getHash());
+        localResponse.getData().getResults().parallelStream().forEach(c -> characters.put(c.getId(), c));
+    }
+
+    /**
+     * @return CharacterDataWrapper with the Character data
+     */
+    private CharacterDataWrapper getCharacters(int offset, int ts, String apiKey, String hash) {
+
+        final String marvelCaractersLimitUrl = String.format("%s?limit=100&offset=%d&ts=%d&apikey=%s&hash=%s", marvelAPIConfig.getCharacersUrl(), offset, ts,
+                apiKey, hash);
+
+        return restTemplate.getForObject(marvelCaractersLimitUrl, CharacterDataWrapper.class);
     }
 
     /*
@@ -91,28 +120,11 @@ public class MarvelServiceBean implements CharacterIdentity {
     @Override
     public Integer[] getAllCharacterIds() {
 
-        return characters.keySet().toArray(new Integer[characters.keySet().size()]);
-    }
+        if (Objects.nonNull(this.characters)) {
+            return characters.keySet().toArray(new Integer[characters.keySet().size()]);
+        }
+        throw new CharactersNotFoundException("Characters do not exist");
 
-    /**
-     * @param localOffset
-     */
-    private void getCharactersAndCollect(final int localOffset) {
-
-        final CharacterDataWrapper localResponse = getCharacters(localOffset, marvelAPIConfig.getTs(), marvelAPIConfig.getApikey(),
-                marvelAPIConfig.getHash());
-        localResponse.getData().getResults().parallelStream().forEach(c -> characters.put(c.getId(), c));
-    }
-
-    /**
-     * @return
-     */
-    private CharacterDataWrapper getCharacters(int offset, int ts, String apiKey, String hash) {
-
-        final String marvelCaractersLimitUrl = String.format("%s?limit=100&offset=%d&ts=%d&apikey=%s&hash=%s", marvelAPIConfig.getCharacersUrl(), offset, ts,
-                apiKey, hash);
-
-        return restTemplate.getForObject(marvelCaractersLimitUrl, CharacterDataWrapper.class);
     }
 
     /*
@@ -128,7 +140,8 @@ public class MarvelServiceBean implements CharacterIdentity {
         if (Objects.nonNull(character)) {
             return this.externalCharacterToMyCharacter.apply(character);
         }
-        return null; // TODO: throw custom exception
+        throw new CharactersNotFoundException("Character Id [" + characterId + "] does not exist");
+
     }
 
 }
