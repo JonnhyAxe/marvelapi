@@ -124,6 +124,20 @@
             <version>2.1.4</version>
         </dependency>
 
+
+
+        <dependency>
+           <groupId>org.seleniumhq.selenium</groupId>
+           <artifactId>selenium-java</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>phantomjsdriver</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+
 	</dependencies>
 
     <build>

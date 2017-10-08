@@ -157,11 +157,11 @@ public class Character {
    * @return urls
   **/
   @ApiModelProperty(value = "A set of public web site URLs for the resource.")
-  public java.util.List getUrls() {
+    public java.util.List<Url> getUrls() {
     return urls;
   }
 
-  public void setUrls(java.util.List urls) {
+    public void setUrls(java.util.List<Url> urls) {
     this.urls = urls;
   }
 
