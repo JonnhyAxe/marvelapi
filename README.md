@@ -8,8 +8,8 @@ Using the data.total (for instance 1491) calculate the number of calls by 1491/1
 
 Part 1.1 (endpoint /character)
 0. create property file with apikey and limit
-1. consume Caracters api to dynamically create DTOs with swagger api
-2. create the stream with REST calls (parallel) by offset /characters?limit=100&offset=100&apikey=746d7e48cbc8d37cf4dd63c53296c3c1
+1. consume Caracters api to dynamically create DTOs with swagger api (DONE)
+2. create the stream with REST calls (parallel) by offset /characters?limit=100&offset=100&apikey=746d7e48cbc8d37cf4dd63c53296c3c1 (DONE)
 AND collect the result (filtered by the necessary info???).
 3. create the service (getAllIds()) to return in a JSON array of numbers.
 4. Create Live Test (It should query the API to get data.total, for instance  1491 in order to compare to the amount of data returned by the API)
