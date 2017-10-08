@@ -16,8 +16,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.web.client.RestTemplate;
 
-import com.swagger.marvelapi.config.MarvelAPIConfig;
-import com.swagger.marvelapi.services.marvel.interfaces.CharacterIdentity;
+import com.marvelapi.config.MarvelAPIConfig;
+import com.marvelapi.services.marvel.interfaces.CharacterIdentity;
 import com.swagger.marvelapi.services.marvel.model.Character;
 import com.swagger.marvelapi.services.marvel.model.CharacterDataWrapper;
 
@@ -48,7 +48,7 @@ public class MarvelApiLiveTest {
     @Test
     public void givenCaracterUrl_whenSendGetForEntity_thenStatusOk() throws IOException {
 
-        final String marvelCaractersUrl = String.format("http://gateway.marvel.com/v1/public/characters?ts=%d&apikey=%s&hash=%s", marvelAPIConfig.getTs(),
+        final String marvelCaractersUrl = String.format("%s?ts=%d&apikey=%s&hash=%s", marvelAPIConfig.getCharacersUrl(), marvelAPIConfig.getTs(),
                 marvelAPIConfig.getApikey(), marvelAPIConfig.getHash());
 
         final CharacterDataWrapper response = restTemplate.getForObject(marvelCaractersUrl, CharacterDataWrapper.class);
@@ -64,9 +64,9 @@ public class MarvelApiLiveTest {
     }
 
     @Test
-    public void givenCaracterUrlBy_whenSendGetForEntity_thenStatusOk() throws IOException, InterruptedException {
+    public void givenCaracterUrlBy_whenSendGetForEntityAndGetAllCharactersIds_thenTheTotalOfCharactersAreEqual() throws IOException, InterruptedException {
 
-        final String marvelCaractersUrl = String.format("http://gateway.marvel.com/v1/public/characters?ts=%d&apikey=%s&hash=%s", marvelAPIConfig.getTs(),
+        final String marvelCaractersUrl = String.format("%s?ts=%d&apikey=%s&hash=%s", marvelAPIConfig.getCharacersUrl(), marvelAPIConfig.getTs(),
                 marvelAPIConfig.getApikey(), marvelAPIConfig.getHash());
 
         final CharacterDataWrapper response = restTemplate.getForObject(marvelCaractersUrl, CharacterDataWrapper.class);

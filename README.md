@@ -7,13 +7,13 @@ from https://gateway.marvel.com:443/v1/public/characters?limit=100&apikey=746d7e
 Using the data.total (for instance 1491) calculate the number of calls by 1491/100 = 14,91 (round it Math.abs()). calls plus the inicial with offset equal to zero
 
 Part 1.1 (endpoint /character)
-0. create property file with apikey and limit
+0. create property file with apikey and limit (DONE)
 1. consume Caracters api to dynamically create DTOs with swagger api (DONE)
 2. create the stream with REST calls (parallel) by offset /characters?limit=100&offset=100&apikey=746d7e48cbc8d37cf4dd63c53296c3c1 (DONE)
 AND collect the result (filtered by the necessary info???).
-3. create the service (getAllIds()) to return in a JSON array of numbers.
-4. Create Live Test (It should query the API to get data.total, for instance  1491 in order to compare to the amount of data returned by the API)
-5. Create the cache with the loaded data. The data strucure should be O(1) for performance of the API and thread safe.
+3. create the service (getAllIds()) to return in a JSON array of numbers (DONE).
+4. Create Live Test (It should query the API to get data.total, for instance  1491 in order to compare to the amount of data returned by the API) (DONE)
+5. Create the cache with the loaded data. The data strucure should be O(1) for performance of the API and thread safe. (DONE)
 
 Part 1.2 (/characters/{characterId})
 1. Create a Domain model with only id, name, description, thumbnail

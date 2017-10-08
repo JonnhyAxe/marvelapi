@@ -1,10 +1,10 @@
-package com.swagger.marvelapi;
+package com.marvelapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
-import com.swagger.marvelapi.config.MarvelAPIConfig;
+import com.marvelapi.config.MarvelAPIConfig;
 
 @SpringBootApplication
 
@@ -14,6 +14,7 @@ import com.swagger.marvelapi.config.MarvelAPIConfig;
 public class MarvelApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MarvelApiApplication.class, args);
+
+        SpringApplication.run(MarvelApiApplication.class, args);
 	}
 }

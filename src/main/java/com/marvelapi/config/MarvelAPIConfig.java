@@ -1,5 +1,5 @@
 
-package com.swagger.marvelapi.config;
+package com.marvelapi.config;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -8,9 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-
-import com.swagger.marvelapi.services.marvel.MarvelServiceBean;
-import com.swagger.marvelapi.services.marvel.interfaces.CharacterIdentity;
 
 /**
  * Configuration bean for marvel Rest API
@@ -43,11 +40,11 @@ public class MarvelAPIConfig {
         return Executors.newFixedThreadPool(4);
     }
 
-    @Bean
-    CharacterIdentity geMarvelServiceBean() {
-
-        return new MarvelServiceBean();
-    }
+    // @Bean
+    // CharacterIdentity geMarvelServiceBean() {
+    //
+    // return new MarvelServiceBean();
+    // }
 
     /**
      * @return the apikey

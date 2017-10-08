@@ -1,5 +1,5 @@
 
-package com.swagger.marvelapi.services.marvel.interfaces;
+package com.marvelapi.services.marvel.interfaces;
 
 
 /**

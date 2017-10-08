@@ -1,4 +1,4 @@
-package com.swagger.marvelapi.services.marvel;
+package com.marvelapi.services.marvel;
 
 import java.util.Map;
 import java.util.Objects;
@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.swagger.marvelapi.config.MarvelAPIConfig;
-import com.swagger.marvelapi.services.marvel.interfaces.CharacterIdentity;
+import com.marvelapi.config.MarvelAPIConfig;
+import com.marvelapi.services.marvel.interfaces.CharacterIdentity;
 import com.swagger.marvelapi.services.marvel.model.Character;
 import com.swagger.marvelapi.services.marvel.model.CharacterDataWrapper;
 
