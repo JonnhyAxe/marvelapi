@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
 
@@ -16,8 +17,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.marvelapi.config.MarvelAPIConfig;
 import com.marvelapi.services.marvel.interfaces.CharacterIdentity;
+import com.marvelapi.web.model.Thumbnail;
 import com.swagger.marvelapi.services.marvel.model.Character;
 import com.swagger.marvelapi.services.marvel.model.CharacterDataWrapper;
+import com.swagger.marvelapi.services.marvel.model.Image;
 
 /**
  *
@@ -43,17 +46,29 @@ public class MarvelServiceBean implements CharacterIdentity {
         });
     };
 
+    private Function<Character, com.marvelapi.web.model.Character> externalCharacterToMyCharacter = new Function<Character, com.marvelapi.web.model.Character>() {
+
+        @Override
+        public com.marvelapi.web.model.Character apply(Character t) {
+
+            Image image = t.getThumbnail();
+            Thumbnail thumbnail = new Thumbnail().path(image.getPath()).extension(image.getExtension());
+            return new com.marvelapi.web.model.Character(t.getId(), t.getName(), t.getDescription(), thumbnail);
+
+        }
+    };
+
     @PostConstruct
     public void init(){
 
         restTemplate = new RestTemplate();
 
         final CharacterDataWrapper response = getCharacters(0, marvelAPIConfig.getTs(), marvelAPIConfig.getApikey(), marvelAPIConfig.getHash());
-
         Integer totalCharacters = response.getData().getTotal();
-        characters = new ConcurrentHashMap<>(totalCharacters);
-        int calls = totalCharacters != null ? (int) Math.round(totalCharacters / 100.00) : 0;
 
+        characters = new ConcurrentHashMap<>(totalCharacters);
+
+        int calls = totalCharacters != null ? (int) Math.round(totalCharacters / 100.00) : 0;
         if (Objects.nonNull(totalCharacters) && calls > 0) {
             response.getData().getResults().parallelStream().forEach(c -> characters.put(c.getId(), c));
             IntStream.iterate(marvelAPIConfig.getOffset(), i -> i + marvelAPIConfig.getOffset()).limit(calls).forEach(ic);
@@ -61,7 +76,7 @@ public class MarvelServiceBean implements CharacterIdentity {
         try {
             executor.awaitTermination(90, TimeUnit.SECONDS);
         }
-        catch (InterruptedException ex) {
+        catch (InterruptedException ex) { // TODO: log exception
             ex.printStackTrace();
         }
 
@@ -100,6 +115,20 @@ public class MarvelServiceBean implements CharacterIdentity {
         return restTemplate.getForObject(marvelCaractersLimitUrl, CharacterDataWrapper.class);
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * com.marvelapi.services.marvel.interfaces.CharacterIdentity#findById(int)
+     */
+    @Override
+    public com.marvelapi.web.model.Character findById(int characterId) {
 
+        Character character = this.characters.get(characterId);
+        if (Objects.nonNull(character)) {
+            return this.externalCharacterToMyCharacter.apply(character);
+        }
+        return null; // TODO: throw custom exception
+    }
 
 }

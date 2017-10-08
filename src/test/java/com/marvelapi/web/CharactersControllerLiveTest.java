@@ -20,10 +20,11 @@ import com.marvelapi.config.MarvelAPIConfig;
 import com.marvelapi.config.MarvelApiLiveTestConfig;
 import com.marvelapi.services.marvel.interfaces.CharacterIdentity;
 import com.marvelapi.web.controller.CharacterController;
+import com.marvelapi.web.model.Character;
 import com.swagger.marvelapi.services.marvel.model.CharacterDataWrapper;
 
 /**
- * <class description>
+ * Characters Controller Live Test
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -48,7 +49,7 @@ public class CharactersControllerLiveTest {
     }
 
     @Test
-    public void givenCaracterUrl_whenSendGetForEntity_thenStatusOk() throws IOException {
+    public void givenCaracterUrl_whenSendGetForEntity_thenStatusOkAndT() throws IOException {
 
         final String marvelCaractersUrl = String.format("%s?ts=%d&apikey=%s&hash=%s", marvelAPIConfig.getCharacersUrl(), marvelAPIConfig.getTs(),
                 marvelAPIConfig.getApikey(), marvelAPIConfig.getHash());
@@ -62,6 +63,31 @@ public class CharactersControllerLiveTest {
         assertThat(characterIds.length, equalTo(response.getData().getTotal()));
         assertThat(controllerCharacterIds.length, equalTo(response.getData().getTotal()));
 
+    }
+
+    @Test
+    public void givenCaracterUrl_whenSendGetForIDEntity_thenStatusOkAndTheCharacterIsReturned() throws IOException {
+
+        final String marvelCaractersUrl = String.format("%s?ts=%d&apikey=%s&hash=%s", marvelAPIConfig.getCharacersUrl(), marvelAPIConfig.getTs(),
+                marvelAPIConfig.getApikey(), marvelAPIConfig.getHash());
+
+        final CharacterDataWrapper response = restTemplate.getForObject(marvelCaractersUrl, CharacterDataWrapper.class);
+        java.util.List<com.swagger.marvelapi.services.marvel.model.Character> result = response.getData().getResults();
+        com.swagger.marvelapi.services.marvel.model.Character character = result.get(0);
+
+        Character characterDomain = characterController.findById(character.getId());
+
+        assertThat(response.getStatus().toLowerCase(), equalTo(HttpStatus.OK.getReasonPhrase().toLowerCase()));
+        assertThat(response, notNullValue());
+        assertThat(character, notNullValue());
+        assertThat(characterDomain, notNullValue());
+
+        assertThat(characterDomain.getName(), equalTo(character.getName()));
+        assertThat(characterDomain.getDescription(), equalTo(character.getDescription()));
+
+        assertThat(character.getThumbnail(), notNullValue());
+        assertThat(character.getThumbnail().getPath(), notNullValue());
+        assertThat(characterDomain.getThumbnail().getPath(), equalTo(character.getThumbnail().getPath()));
     }
 
 }
