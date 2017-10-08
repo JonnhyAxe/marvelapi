@@ -5,11 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
 import com.marvelapi.config.MarvelAPIConfig;
+import com.marvelapi.config.MarvelAPIWebConfig;
 
 @SpringBootApplication
-
 @Import({
-        MarvelAPIConfig.class
+        MarvelAPIConfig.class,
+        MarvelAPIWebConfig.class
 })
 public class MarvelApiApplication {
 

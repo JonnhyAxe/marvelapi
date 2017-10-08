@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
  */
 
 @Configuration
-@ComponentScan({ "com.swagger.marvelapi" })
+@ComponentScan({ "com.marvelapi.web" })
 public class MarvelAPIWebConfig extends WebMvcConfigurationSupport {
 
     @Bean

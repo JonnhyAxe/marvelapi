@@ -6,6 +6,7 @@ import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @PropertySource("classpath:application.properties")
+@ComponentScan({ "com.marvelapi.services" })
 public class MarvelAPIConfig {
 
 
@@ -39,12 +41,6 @@ public class MarvelAPIConfig {
 
         return Executors.newFixedThreadPool(4);
     }
-
-    // @Bean
-    // CharacterIdentity geMarvelServiceBean() {
-    //
-    // return new MarvelServiceBean();
-    // }
 
     /**
      * @return the apikey

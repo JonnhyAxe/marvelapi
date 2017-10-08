@@ -1,4 +1,4 @@
-package com.swagger.marvelapi;
+package com.marvelapi;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

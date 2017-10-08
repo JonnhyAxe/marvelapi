@@ -1,4 +1,4 @@
-package com.swagger.marvelapi.services.marvel.config;
+package com.marvelapi.services.marvel.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;

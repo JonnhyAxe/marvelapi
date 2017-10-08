@@ -1,4 +1,4 @@
-package com.swagger.marvelapi.services.marvel;
+package com.marvelapi.web;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -17,17 +17,18 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.web.client.RestTemplate;
 
 import com.marvelapi.config.MarvelAPIConfig;
+import com.marvelapi.config.MarvelApiLiveTestConfig;
 import com.marvelapi.services.marvel.interfaces.CharacterIdentity;
-import com.swagger.marvelapi.services.marvel.model.Character;
+import com.marvelapi.web.controller.CharacterController;
 import com.swagger.marvelapi.services.marvel.model.CharacterDataWrapper;
 
 /**
- * Test Suite for Marvel REST Api live testing
+ * <class description>
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { MarvelAPIConfig.class }, loader = AnnotationConfigContextLoader.class)
-public class MarvelApiLiveTest {
+@ContextConfiguration(classes = { MarvelAPIConfig.class, MarvelApiLiveTestConfig.class }, loader = AnnotationConfigContextLoader.class)
+public class CharactersControllerLiveTest {
 
     private RestTemplate restTemplate;
 
@@ -37,7 +38,8 @@ public class MarvelApiLiveTest {
     @Autowired
     private CharacterIdentity characterIdentity;
 
-
+    @Autowired
+    private CharacterController characterController;
 
     @Before
     public void beforeTest() {
@@ -52,31 +54,14 @@ public class MarvelApiLiveTest {
                 marvelAPIConfig.getApikey(), marvelAPIConfig.getHash());
 
         final CharacterDataWrapper response = restTemplate.getForObject(marvelCaractersUrl, CharacterDataWrapper.class);
-
-        assertThat(response.getStatus().toLowerCase(), equalTo(HttpStatus.OK.getReasonPhrase().toLowerCase()));
-        assertThat(response, notNullValue());
-
-        java.util.List<Character> result = response.getData().getResults();
-        Character character = result.get(0);
-
-        assertThat(character, notNullValue());
-
-    }
-
-    @Test
-    public void givenCaracterUrlBy_whenSendGetForEntityAndGetAllCharactersIds_thenTheTotalOfCharactersAreEqual() throws IOException, InterruptedException {
-
-        final String marvelCaractersUrl = String.format("%s?ts=%d&apikey=%s&hash=%s", marvelAPIConfig.getCharacersUrl(), marvelAPIConfig.getTs(),
-                marvelAPIConfig.getApikey(), marvelAPIConfig.getHash());
-
-        final CharacterDataWrapper response = restTemplate.getForObject(marvelCaractersUrl, CharacterDataWrapper.class);
         Integer[] characterIds = characterIdentity.getAllCharacterIds();
-
+        Integer[] controllerCharacterIds = characterController.getAllCharacterIds();
 
         assertThat(response.getStatus().toLowerCase(), equalTo(HttpStatus.OK.getReasonPhrase().toLowerCase()));
         assertThat(response, notNullValue());
-
         assertThat(characterIds.length, equalTo(response.getData().getTotal()));
+        assertThat(controllerCharacterIds.length, equalTo(response.getData().getTotal()));
+
     }
 
 }

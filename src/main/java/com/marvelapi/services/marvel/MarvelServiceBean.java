@@ -37,7 +37,6 @@ public class MarvelServiceBean implements CharacterIdentity {
     private Map<Integer, Character> characters;
 
     private IntConsumer ic = (offset) -> {
-        // final int offset = index * marvelAPIConfig.getOffset();
         executor.submit(() -> {
             getCharactersAndCollect(offset);
 
@@ -58,17 +57,6 @@ public class MarvelServiceBean implements CharacterIdentity {
         if (Objects.nonNull(totalCharacters) && calls > 0) {
             response.getData().getResults().parallelStream().forEach(c -> characters.put(c.getId(), c));
             IntStream.iterate(marvelAPIConfig.getOffset(), i -> i + marvelAPIConfig.getOffset()).limit(calls).forEach(ic);
-
-            // for (int i = marvelAPIConfig.getOffset(); i <=
-            // marvelAPIConfig.getOffset() * calls; i +=
-            // marvelAPIConfig.getOffset()) { // 02:00
-            // final int localOffset = i;
-            // executor.submit(() -> {
-            // getCharactersAndCollect(localOffset);
-            //
-            // });
-            // }
-
         }
         try {
             executor.awaitTermination(90, TimeUnit.SECONDS);
