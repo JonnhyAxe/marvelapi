@@ -36,6 +36,9 @@ public class MarvelAPIConfig {
     @Value("${marvel.api.characters.url}")
     private String characersUrl;
 
+    @Value("${marvel.api.google.translator.key}")
+    private String googleAPIKey;
+
     @Bean
     ExecutorService getExecutor() {
 
@@ -80,6 +83,14 @@ public class MarvelAPIConfig {
     public int getTs() {
 
         return ts;
+    }
+
+    /**
+     * @return
+     */
+    public String getGoogleAPIKey() {
+
+        return googleAPIKey;
     }
 
 }
