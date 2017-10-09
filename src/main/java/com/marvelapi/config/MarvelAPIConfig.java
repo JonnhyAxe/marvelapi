@@ -39,6 +39,19 @@ public class MarvelAPIConfig {
     @Value("${marvel.api.google.translator.key}")
     private String googleAPIKey;
 
+    @Value("${marvel.api.power.wiki}")
+    private String characterPowerWiki;
+
+    private String getPhantonJS;
+
+    /**
+     * @return the characterPowerWiki
+     */
+    public String getCharacterPowerWiki() {
+
+        return characterPowerWiki;
+    }
+
     @Bean
     ExecutorService getExecutor() {
 
@@ -91,6 +104,14 @@ public class MarvelAPIConfig {
     public String getGoogleAPIKey() {
 
         return googleAPIKey;
+    }
+
+    /**
+     * @return
+     */
+    public String getPhantonJS() {
+
+        return this.getPhantonJS;
     }
 
 }

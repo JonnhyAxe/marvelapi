@@ -82,3 +82,8 @@ https://dzone.com/articles/marvels-superheroic-rest-api
 
 #Etags
 https://developer.marvel.com/documentation/generalinfo
+
+#Google Translator (ISO-639-1 Code)
+
+https://cloud.google.com/translate/docs/languages
+
