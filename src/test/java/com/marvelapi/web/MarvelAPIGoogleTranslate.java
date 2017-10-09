@@ -39,12 +39,14 @@ public class MarvelAPIGoogleTranslate {
 
         properties.load(MarvelAPIGoogleTranslate.class.getResourceAsStream("/application.properties"));
     }
+
     /**
      *
      */
     private static final String GOOGLE_API_KEY = "GOOGLE_API_KEY";
 
     private static final String GOOGLE_API_KEY_PROPERTY = "marvel.api.google.translator.key";
+
     @Autowired
     private MarvelAPIConfig marvelAPIConfig;
 
@@ -119,20 +121,6 @@ public class MarvelAPIGoogleTranslate {
 
             return ISO_COUNTRIES.contains(s);
         }
-
-        // public void setResources(String locale) {
-        //
-        // // validate locale
-        // Locale lo = parseLocale(locale);
-        // if (isValid(lo)) {
-        // System.out.println(lo.getCountry() + " " + lo.getLanguage());
-        // System.out.println(lo.getDisplayCountry() + " " +
-        // lo.getDisplayLanguage());
-        // }
-        // else {
-        // System.out.println("invalid: " + locale);
-        // }
-        // }
 
         public Locale parseLocale(String locale) {
 

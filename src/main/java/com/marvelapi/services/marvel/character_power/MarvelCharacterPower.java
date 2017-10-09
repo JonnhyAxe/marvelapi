@@ -1,8 +1,10 @@
-package com.marvelapi.services.marvel;
+package com.marvelapi.services.marvel.character_power;
 
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+
+import javax.annotation.PostConstruct;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -29,6 +31,11 @@ import com.swagger.marvelapi.services.marvel.model.Url;
 public class MarvelCharacterPower implements CharacterPowerIdentity {
 
     /**
+     *
+     */
+    private static final String PHANTOMJS_EXE = "/phantomjs.exe";
+
+    /**
      * script to be executed in order to
      */
     private static final String DIV_INNER_TEXT = "return arguments[0].innerText";
@@ -43,6 +50,15 @@ public class MarvelCharacterPower implements CharacterPowerIdentity {
 
     private WebDriver driver;
 
+    private String phantomExecutor;
+
+    @PostConstruct
+    public void init() throws Exception {
+
+        phantomExecutor = MarvelCharacterPower.class.getResource(PHANTOMJS_EXE).getFile();
+
+    }
+
     /*
      * (non-Javadoc)
      *
@@ -54,7 +70,10 @@ public class MarvelCharacterPower implements CharacterPowerIdentity {
 
         String powerText = null;
         By powerDiv = By.id(marvelAPIConfig.getCharacterPowerWiki());
-        String phantomExecutor = MarvelCharacterPowerLiveTest.class.getResource("/phantomjs.exe").getFile();
+
+        if (Objects.isNull(phantomExecutor)) {
+            return powerText;
+        }
 
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setJavascriptEnabled(true);

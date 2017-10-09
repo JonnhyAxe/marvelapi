@@ -6,11 +6,13 @@ import org.springframework.context.annotation.Import;
 
 import com.marvelapi.config.MarvelAPIConfig;
 import com.marvelapi.config.MarvelAPIWebConfig;
+import com.marvelapi.config.MarvelExternalAPIConfig;
 
 @SpringBootApplication
 @Import({
         MarvelAPIConfig.class,
-        MarvelAPIWebConfig.class
+        MarvelAPIWebConfig.class,
+        MarvelExternalAPIConfig.class
 })
 public class MarvelApiApplication {
 

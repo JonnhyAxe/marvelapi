@@ -32,7 +32,7 @@ import com.swagger.marvelapi.services.marvel.model.Image;
 public class MarvelServiceBean implements CharacterIdentity {
 
     @Autowired
-    ExecutorService executor;
+    private ExecutorService executor;
 
     @Autowired
     private MarvelAPIConfig marvelAPIConfig;

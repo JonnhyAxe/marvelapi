@@ -14,24 +14,24 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
-import com.marvelapi.config.MarvelAPIConfig;
+import com.marvelapi.config.MarvelApiCharacterPowerLiveTestConfig;
+import com.marvelapi.services.marvel.interfaces.CharacterPowerIdentity;
 import com.swagger.marvelapi.services.marvel.model.Character;
 import com.swagger.marvelapi.services.marvel.model.Url;
 
 /**
- * Test Suite for Marvel Character Poer REST Api live testing
+ * Test Suite for Marvel Character REST Api live testing
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { MarvelAPIConfig.class }, loader = AnnotationConfigContextLoader.class)
-public class MarvelCharacterPowerLiveTest {
+@ContextConfiguration(classes = { MarvelApiCharacterPowerLiveTestConfig.class }, loader = AnnotationConfigContextLoader.class)
+public class MarvelApiCharacterPowerLiveTest {
 
     @Autowired
-    private MarvelCharacterPower marvelCharacterPower;
+    private CharacterPowerIdentity marvelCharacterPower;
 
     @Test
     public void givenBenParkerCaracter_whenSendGetForEntityPower_thenPowerisNone() throws IOException {
-
 
         // Given
         Character character = new Character();
