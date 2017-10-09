@@ -5,8 +5,10 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.After;
 import org.junit.Test;
 //--
 import org.openqa.selenium.By;
@@ -21,10 +23,17 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class SeleniumLoadTest {
+public class MarvelAPISeleniumLoadTest {
 
   private WebDriver driver;
 
+    @After
+    public void quiteDriver() {
+
+        if (Objects.nonNull(driver)) {
+            driver.quit();
+        }
+    }
 
     @Test()
     public void getBenParkerPower_withSeleniumWithoutWebBrowser() {
@@ -51,8 +60,6 @@ public class SeleniumLoadTest {
         assertThat(powerText, notNullValue());
         assertThat(powerText, equalTo(""));
         assertThat(hiddenPowers, equalTo(expetectedPowers));
-
-        driver.quit();
 
     }
 
@@ -81,8 +88,6 @@ public class SeleniumLoadTest {
         assertThat(powerText, notNullValue());
         assertThat(powerText, equalTo(""));
         assertThat(hiddenPowers, equalTo(expetectedPowers));
-
-        driver.quit();
 
     }
 
