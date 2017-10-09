@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.marvelapi.config.MarvelAPIConfig;
 import com.marvelapi.config.MarvelApiLiveTestConfig;
+import com.marvelapi.config.MarvelExternalAPIConfig;
 import com.marvelapi.services.marvel.interfaces.CharacterIdentity;
 import com.swagger.marvelapi.services.marvel.model.Character;
 import com.swagger.marvelapi.services.marvel.model.CharacterDataWrapper;
@@ -27,7 +28,7 @@ import com.swagger.marvelapi.services.marvel.model.CharacterDataWrapper;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { MarvelApiLiveTestConfig.class }, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = { MarvelApiLiveTestConfig.class, MarvelExternalAPIConfig.class, MarvelAPIConfig.class }, loader = AnnotationConfigContextLoader.class)
 public class MarvelApiLiveTest {
 
     private RestTemplate restTemplate;

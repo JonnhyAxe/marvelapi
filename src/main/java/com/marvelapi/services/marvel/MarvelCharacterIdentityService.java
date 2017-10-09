@@ -29,7 +29,7 @@ import com.swagger.marvelapi.services.marvel.model.Image;
  *
  */
 @Service
-public class MarvelServiceBean implements CharacterIdentity {
+public class MarvelCharacterIdentityService implements CharacterIdentity {
 
     @Autowired
     private ExecutorService executor;
