@@ -57,7 +57,7 @@ public class MarvelAPIWebConfig extends WebMvcConfigurationSupport {
                 .select().apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build()
-                .pathMapping("/characters")
+                .pathMapping("/")
                 .directModelSubstitute(LocalDate.class, String.class)
                 .genericModelSubstitutes(ResponseEntity.class); // The model
                                                                 // data rather
