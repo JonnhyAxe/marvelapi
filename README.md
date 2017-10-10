@@ -84,12 +84,17 @@ https://dzone.com/articles/marvels-superheroic-rest-api
 https://developer.marvel.com/documentation/generalinfo
 
 #Google Translator (ISO-639-1 Code)
-
 https://cloud.google.com/translate/docs/languages
 
 #Swagger
 http://localhost:8080/swagger-ui.html
 http://localhost:8080/v2/api-docs
+
+#Run
+
+C:\dev\marvelapi>mvn spring-boot:run -Drun.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005" -Dmarvel.apikey=746d7e48cbc8d37cf4dd63c53296c3c1 -Dmarvel.apikey=746d7e48cbc8d37cf4dd63c53296c3c1 -Dgoogle.apikey=AIzaSyDOVJKECU1EJeJvlIVFum93bCDgy3nmPCc
+
+
 
 
 

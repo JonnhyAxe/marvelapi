@@ -11,7 +11,7 @@
 
    <appender name="FILE-AUDIT"
         class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${DEV_HOME}/debug.log</file>
+        <file>logs/debug.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>
                 %d{yyyy-MM-dd HH:mm:ss} -  %class{0}: %msg%n
