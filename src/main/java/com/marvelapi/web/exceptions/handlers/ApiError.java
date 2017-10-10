@@ -1,7 +1,11 @@
 package com.marvelapi.web.exceptions.handlers;
 
 
-
+/**
+ *
+ * Domain Object returned by the API for internal exceptions
+ *
+ */
 public class ApiError {
 
     private int status;

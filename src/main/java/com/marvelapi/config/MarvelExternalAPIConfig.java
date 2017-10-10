@@ -4,7 +4,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * <class description>
+ * Configuration bean to load service beans
  *
  */
 @Configuration

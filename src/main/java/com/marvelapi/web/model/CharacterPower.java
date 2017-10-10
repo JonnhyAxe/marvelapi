@@ -2,7 +2,7 @@ package com.marvelapi.web.model;
 
 
 /**
- * CharacterPower
+ * Character on asteroids to replace by Character from Marvel APIs model
  *
  */
 public class CharacterPower {

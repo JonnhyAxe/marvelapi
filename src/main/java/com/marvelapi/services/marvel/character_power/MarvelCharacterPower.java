@@ -32,7 +32,7 @@ import com.swagger.marvelapi.services.marvel.model.Url;
  *
  */
 @Component
-// @Scope("singleton")
+// @Scope("singleton") Keep this in mind, cannot create more than one instance
 public class MarvelCharacterPower implements CharacterPowerIdentity {
 
     private static final Logger logger = LoggerFactory.getLogger(MarvelCharacterPower.class);

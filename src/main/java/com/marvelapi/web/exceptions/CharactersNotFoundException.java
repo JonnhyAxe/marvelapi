@@ -1,6 +1,9 @@
 package com.marvelapi.web.exceptions;
 
-
+/**
+ * Exception for requests with unknown Character IDs
+ *
+ */
 public final class CharactersNotFoundException extends RuntimeException {
 
     /**

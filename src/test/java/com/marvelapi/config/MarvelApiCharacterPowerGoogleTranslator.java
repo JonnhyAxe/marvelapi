@@ -14,6 +14,7 @@ import org.springframework.context.annotation.PropertySource;
 @ComponentScan({ "com.marvelapi.services.google" })
 public class MarvelApiCharacterPowerGoogleTranslator {
 
+
     @Bean
     public MarvelAPIConfig marvelAPIConfig() {
 

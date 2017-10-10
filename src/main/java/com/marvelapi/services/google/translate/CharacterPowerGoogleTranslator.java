@@ -18,7 +18,7 @@ import com.marvelapi.services.google.translate.interfaces.CharacterPowerTranslat
 import com.marvelapi.web.exceptions.CharacterPowerTranslationException;
 
 /**
- * Google Translator Implementation for Character Power Translation
+ * Google Translator Implementation for Character Power Translation Interface
  *
  */
 @Service

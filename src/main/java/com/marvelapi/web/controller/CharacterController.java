@@ -13,6 +13,7 @@ import com.marvelapi.services.google.translate.interfaces.CharacterPowerTranslat
 import com.marvelapi.services.marvel.interfaces.CharacterIdentity;
 import com.marvelapi.web.model.Character;
 import com.marvelapi.web.model.CharacterPower;
+
 /**
  * Character Controller Beans for web interface
  *

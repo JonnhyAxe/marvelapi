@@ -1,8 +1,9 @@
 package com.marvelapi.services.marvel.interfaces;
 
 import com.swagger.marvelapi.services.marvel.model.Character;
+
 /**
- *
+ * Interface for fetching the Character Power
  *
  */
 @FunctionalInterface

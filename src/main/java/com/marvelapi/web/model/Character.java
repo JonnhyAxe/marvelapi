@@ -2,7 +2,7 @@ package com.marvelapi.web.model;
 
 
 /**
- * Character domain model to replace by Character from APIs model
+ * Character domain model to replace by Character from Marvel APIs model
  *
  */
 public class Character {

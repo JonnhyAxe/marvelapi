@@ -9,7 +9,7 @@ import java.util.Set;
 import org.springframework.stereotype.Component;
 
 /**
- * Component Utils for Locale Validation
+ * Component utils for Locale ISO Validation
  *
  */
 @Component

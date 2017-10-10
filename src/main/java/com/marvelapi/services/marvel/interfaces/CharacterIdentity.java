@@ -5,7 +5,7 @@ import com.marvelapi.web.model.CharacterPower;
 
 /**
  *
- * Standard interface API for all
+ * Standard interface API for Character Controller
  *
  */
 public interface CharacterIdentity {

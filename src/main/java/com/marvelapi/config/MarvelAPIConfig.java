@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 /**
- * Configuration bean for marvel Rest API
+ * Configuration bean to load property file
  *
  */
 
