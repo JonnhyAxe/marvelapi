@@ -18,7 +18,8 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.marvelapi.config.MarvelAPIConfig;
 import com.marvelapi.services.marvel.interfaces.CharacterPowerIdentity;
@@ -29,7 +30,8 @@ import com.swagger.marvelapi.services.marvel.model.Url;
  * CharacterPowerIdentity implementation to get Character Power from Wiki
  *
  */
-@Service
+@Component
+@Scope("singleton")
 public class MarvelCharacterPower implements CharacterPowerIdentity {
 
     /**
@@ -50,7 +52,7 @@ public class MarvelCharacterPower implements CharacterPowerIdentity {
     @Autowired
     private MarvelAPIConfig marvelAPIConfig;
 
-    private WebDriver driver;
+    private static WebDriver driver;
 
     private String phantomExecutor;
 
@@ -58,6 +60,13 @@ public class MarvelCharacterPower implements CharacterPowerIdentity {
     public void init() throws Exception {
 
         phantomExecutor = MarvelCharacterPower.class.getResource(PHANTOMJS_EXE).getFile();
+
+        DesiredCapabilities caps = new DesiredCapabilities();
+        caps.setJavascriptEnabled(true);
+        caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, phantomExecutor);
+
+        driver = new PhantomJSDriver(caps);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
     }
 
@@ -83,7 +92,7 @@ public class MarvelCharacterPower implements CharacterPowerIdentity {
      * getCharcaterPower(java.lang.Character)
      */
     @Override
-    public String getCharcaterPower(Character characterId) {
+    public String getCharacterPower(Character characterId) {
 
         String powerText = null;
         By powerDiv = By.id(marvelAPIConfig.getCharacterPowerWiki());
@@ -92,12 +101,13 @@ public class MarvelCharacterPower implements CharacterPowerIdentity {
             return powerText;
         }
 
-        DesiredCapabilities caps = new DesiredCapabilities();
-        caps.setJavascriptEnabled(true);
-        caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, phantomExecutor);
-
-        driver = new PhantomJSDriver(caps);
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        // DesiredCapabilities caps = new DesiredCapabilities();
+        // caps.setJavascriptEnabled(true);
+        // caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
+        // phantomExecutor);
+        //
+        // driver = new PhantomJSDriver(caps);
+        // driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         Optional<Url> wikiURL = characterId.getUrls().stream().filter(url -> url.getType().equals(WIKI_TYPE_URL)).findFirst();
         if (wikiURL.isPresent() && Objects.nonNull(wikiURL.get().getUrl())) {
@@ -113,6 +123,9 @@ public class MarvelCharacterPower implements CharacterPowerIdentity {
                 powerText = (String) ((JavascriptExecutor) driver).executeScript(DIV_INNER_TEXT, searchButton);
 
             }
+        }
+        else {
+            System.out.println("Wiki do not exist " + characterId.getId());
         }
 
         return powerText;

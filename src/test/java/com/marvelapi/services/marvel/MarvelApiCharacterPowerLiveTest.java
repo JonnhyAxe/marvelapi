@@ -44,7 +44,7 @@ public class MarvelApiCharacterPowerLiveTest {
         urls.add(wikiUrl);
         character.setUrls(urls);
         // When
-        final String response = marvelCharacterPower.getCharcaterPower(character);
+        final String response = marvelCharacterPower.getCharacterPower(character);
 
         //
         assertThat(response, notNullValue());

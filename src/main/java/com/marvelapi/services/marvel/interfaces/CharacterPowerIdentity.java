@@ -13,5 +13,5 @@ public interface CharacterPowerIdentity {
      *            to get the power from Wiki url
      * @return Character's power
      */
-    String getCharcaterPower(Character characterId);
+    String getCharacterPower(Character characterId);
 }
