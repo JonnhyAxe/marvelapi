@@ -1,10 +1,12 @@
 package com.marvelapi.services.marvel.character_power;
 
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -57,6 +59,21 @@ public class MarvelCharacterPower implements CharacterPowerIdentity {
 
         phantomExecutor = MarvelCharacterPower.class.getResource(PHANTOMJS_EXE).getFile();
 
+    }
+
+    @PreDestroy
+    public void destroy() throws IOException {
+
+        if (Objects.nonNull(driver)) {
+            driver.quit();
+            Runtime rt = Runtime.getRuntime();
+            if (System.getProperty("os.name").toLowerCase().indexOf("windows") > -1) {
+                rt.exec("taskkill /F /IM phantomjs.exe");
+            }
+            else {
+                rt.exec("kill -9 ");
+            }
+        }
     }
 
     /*

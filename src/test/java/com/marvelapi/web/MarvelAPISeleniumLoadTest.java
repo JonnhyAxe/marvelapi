@@ -11,6 +11,7 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 //--
@@ -27,10 +28,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.context.annotation.Profile;
 
+//
 @Profile("live")
 public class MarvelAPISeleniumLoadTest {
 
-    private WebDriver driver;
+    private static WebDriver driver;
 
     private Properties properties = new Properties();
 
@@ -44,15 +46,29 @@ public class MarvelAPISeleniumLoadTest {
         PHANTOMJS_EXECUTABLE_PATH_PROPERTY = MarvelAPIGoogleTranslate.class.getResource("/phantomjs.exe").getFile();
     }
 
+    @AfterClass
+    public static void shutdownPhantom() throws IOException {
+
+        if (Objects.nonNull(driver)) {
+            Runtime rt = Runtime.getRuntime();
+            if (System.getProperty("os.name").toLowerCase().indexOf("windows") > -1) {
+                rt.exec("taskkill /F /IM phantomjs.exe");
+            }
+            else {
+                rt.exec("kill -9 ");
+            }
+        }
+    }
+
     @After
-    public void quiteDriver() {
+    public void quiteDriver() throws IOException {
 
         if (Objects.nonNull(driver)) {
             driver.quit();
         }
     }
 
-    @Test()
+    @Test
     public void givenBenParkerPowerWikiURL_getGetThePowerWithSeleniumWithoutWebBrowser_thenPowerIsNone() {
 
         String expetectedPowers = "None";
@@ -81,7 +97,7 @@ public class MarvelAPISeleniumLoadTest {
 
     }
 
-    @Test()
+    @Test
     public void get3DManPower_getGetThePowerWithSeleniumWithoutWebBrowser_thenPowerIsCread3dDimention() {
 
         String expetectedPowers = "Through concentration, Hal could merge the images of his brother imprinted on his glasses and thus cause his brother Chuck to reappear as a three-dimensional man, clad in an altered version of his experimental flight suit and endowed with physical abilities roughly three times greater than those of an ordinary human. Hal would fall into a trance-like state when Chuck appeared, and Chuck could only exist in the three-dimensional world for three hours at a time, after which Hal had to revive.\nAs the 3-D Man, Chandler possessed roughly three times the physical abilities and sensory acuity of an ordinary human in peak condition and is capable of slightly superhuman strength and speed. His stamina, durability, agility and reflexes are also estimated to be superhuman, namely roughly triple that of a human in peak physical condition. He could also sense Skrulls no matter what form they took.";
