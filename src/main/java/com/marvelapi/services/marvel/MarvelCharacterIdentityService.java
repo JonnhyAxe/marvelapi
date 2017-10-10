@@ -110,7 +110,8 @@ public class MarvelCharacterIdentityService implements CharacterIdentity {
 
             }
         }
-        catch (InterruptedException | ResourceAccessException ex) { // TODO: log exception
+        catch (InterruptedException | ResourceAccessException ex) { // TODO: log
+                                                                    // exception
             logger.error(ex.getMessage());
 
         }
@@ -194,7 +195,7 @@ public class MarvelCharacterIdentityService implements CharacterIdentity {
         if (Objects.nonNull(power) && Objects.nonNull(character)) {
             return externalCharacterToMyCharacterPower.apply(character, power);
         }
-        return null; // TODO: throw exception
+        throw new CharactersNotFoundException("CharacterId not found");
     }
 
 }

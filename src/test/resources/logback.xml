@@ -14,7 +14,7 @@
         <file>${DEV_HOME}/debug.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>
-                %d{yyyy-MM-dd HH:mm:ss} - %msg%n
+                %d{yyyy-MM-dd HH:mm:ss} -  %class{0}: %msg%n
             </Pattern>
         </encoder>
 
@@ -44,12 +44,9 @@
         <appender-ref ref="FILE-AUDIT" />
     </logger> <!-- to follow if setup is being executed -->
 
-    <root level="error">
+    <root level="DEBUG">
         <appender-ref ref="FILE-AUDIT" />
     </root>
 
-    <root level="INFO">
-        <appender-ref ref="FILE-AUDIT" />
-    </root>
 
 </configuration>
