@@ -20,6 +20,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Configuration file for web related beans
@@ -28,6 +29,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 @ComponentScan({ "com.marvelapi.web" })
+@EnableSwagger2
 public class MarvelAPIWebConfig extends WebMvcConfigurationSupport {
 
     @Bean
@@ -55,7 +57,7 @@ public class MarvelAPIWebConfig extends WebMvcConfigurationSupport {
                 .select().apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build()
-                .pathMapping("/")
+                .pathMapping("/characters")
                 .directModelSubstitute(LocalDate.class, String.class)
                 .genericModelSubstitutes(ResponseEntity.class); // The model
                                                                 // data rather
