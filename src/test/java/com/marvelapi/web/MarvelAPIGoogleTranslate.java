@@ -15,6 +15,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 
 import com.google.cloud.translate.Detection;
@@ -28,6 +29,7 @@ import com.marvelapi.config.MarvelAPIConfig;
  * Google Translator API for Marvel API
  *
  */
+@Profile("live")
 @PropertySource("classpath:application.properties")
 public class MarvelAPIGoogleTranslate {
 
