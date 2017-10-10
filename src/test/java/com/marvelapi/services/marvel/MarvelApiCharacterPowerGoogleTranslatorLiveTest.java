@@ -15,6 +15,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import com.marvelapi.config.MarvelApiCharacterPowerGoogleTranslator;
 import com.marvelapi.services.google.translate.interfaces.CharacterPowerTranslator;
+import com.marvelapi.web.exceptions.CharacterPowerTranslationException;
 
 /**
  * Test suite for PowerGoogleTranslatorLiveTest
@@ -41,7 +42,7 @@ public class MarvelApiCharacterPowerGoogleTranslatorLiveTest {
         assertThat(actualPower, equalTo(expectedTranslation));
     }
 
-    @Test()
+    @Test(expected = CharacterPowerTranslationException.class)
     public void givenunknownLocale_thereIsNoCorrespondingTranslation() {
 
         String targetLanguage = "en123";
