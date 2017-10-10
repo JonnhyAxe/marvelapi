@@ -87,3 +87,9 @@ https://developer.marvel.com/documentation/generalinfo
 
 https://cloud.google.com/translate/docs/languages
 
+#Swagger
+http://localhost:8080/swagger-ui.html
+http://localhost:8080/v2/api-docs
+
+
+
