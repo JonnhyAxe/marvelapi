@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.marvelapi.services.marvel.interfaces.CharacterIdentity;
 import com.marvelapi.web.model.Character;
+import com.marvelapi.web.model.CharacterPower;
 /**
  * Character Controller Beans for web interface
  *
@@ -37,4 +38,11 @@ public class CharacterController {
         return characterIdentity.findById(characterId);
     }
 
+    @RequestMapping(path = "/{characterId}/powers", method = RequestMethod.GET)
+    public CharacterPower getCharacterPower(@PathVariable("name")
+    @Valid
+    final int characterId) {
+
+        return characterIdentity.getCharacterPower(characterId);
+    }
 }

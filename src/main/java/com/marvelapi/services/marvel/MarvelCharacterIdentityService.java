@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.IntConsumer;
@@ -23,6 +24,7 @@ import com.marvelapi.config.MarvelAPIConfig;
 import com.marvelapi.services.marvel.interfaces.CharacterIdentity;
 import com.marvelapi.services.marvel.interfaces.CharacterPowerIdentity;
 import com.marvelapi.web.exceptions.CharactersNotFoundException;
+import com.marvelapi.web.model.CharacterPower;
 import com.marvelapi.web.model.Thumbnail;
 import com.swagger.marvelapi.services.marvel.model.Character;
 import com.swagger.marvelapi.services.marvel.model.CharacterDataWrapper;
@@ -75,6 +77,11 @@ public class MarvelCharacterIdentityService implements CharacterIdentity {
         }
     };
 
+    private BiFunction<Character, String, CharacterPower> externalCharacterToMyCharacterPower = (character, power) -> {
+
+        return new CharacterPower(character.getId(), character.getName(), character.getDescription(), power);
+    };
+
     private Consumer<Character> myCharacterPowerConsumer = (character) -> {
         String power = this.characterPowerIdentity.getCharacterPower(character);
         this.charactersPowers.put(character.getId(), power);
@@ -107,7 +114,9 @@ public class MarvelCharacterIdentityService implements CharacterIdentity {
             logger.error(ex.getMessage());
 
         }
-
+        // 1011334 (3D- man)
+        this.charactersPowers.put(1011334,
+                "Through concentration, Hal could merge the images of his brother imprinted on his glasses and thus cause his brother Chuck to reappear as a three-dimensional man, clad in an altered version of his experimental flight suit and endowed with physical abilities roughly three times greater than those of an ordinary human. Hal would fall into a trance-like state when Chuck appeared, and Chuck could only exist in the three-dimensional world for three hours at a time, after which Hal had to revive.\nAs the 3-D Man, Chandler possessed roughly three times the physical abilities and sensory acuity of an ordinary human in peak condition and is capable of slightly superhuman strength and speed. His stamina, durability, agility and reflexes are also estimated to be superhuman, namely roughly triple that of a human in peak physical condition. He could also sense Skrulls no matter what form they took.");
         logger.debug("MarvelCharacterIdentityService finished with character " + characters.size());
         logger.debug("and charactersPowers " + charactersPowers.size());
 
@@ -169,6 +178,23 @@ public class MarvelCharacterIdentityService implements CharacterIdentity {
         }
         throw new CharactersNotFoundException("Character Id [" + characterId + "] does not exist");
 
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.marvelapi.services.marvel.interfaces.CharacterIdentity#
+     * getCharacterPower(int)
+     */
+    @Override
+    public CharacterPower getCharacterPower(int characterId) {
+
+        String power = this.charactersPowers.get(characterId);
+        Character character = this.characters.get(characterId);
+        if (Objects.nonNull(power) && Objects.nonNull(character)) {
+            return externalCharacterToMyCharacterPower.apply(character, power);
+        }
+        return null; // TODO: throw exception
     }
 
 }

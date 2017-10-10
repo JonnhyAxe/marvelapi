@@ -1,6 +1,7 @@
 package com.marvelapi.services.marvel.interfaces;
 
 import com.marvelapi.web.model.Character;
+import com.marvelapi.web.model.CharacterPower;
 
 /**
  *
@@ -20,5 +21,11 @@ public interface CharacterIdentity {
      * @return Character object
      */
     Character findById(int characterId);
+
+    /**
+     * @param characterId
+     * @return CharacterPower object
+     */
+    CharacterPower getCharacterPower(int characterId);
 
 }
