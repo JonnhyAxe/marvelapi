@@ -15,6 +15,7 @@ import com.google.cloud.translate.TranslateOptions;
 import com.google.cloud.translate.Translation;
 import com.marvelapi.config.MarvelAPIConfig;
 import com.marvelapi.services.google.translate.interfaces.CharacterPowerTranslator;
+import com.marvelapi.web.exceptions.CharacterPowerTranslationException;
 
 /**
  * Google Translator Implementation for Character Power Translation
@@ -72,9 +73,12 @@ public class CharacterPowerGoogleTranslator implements CharacterPowerTranslator 
 
             }
         }
-        return Objects.nonNull(translation) ? translation.getTranslatedText() : null;
 
+        if (Objects.nonNull(translation)) {
+            return translation.getTranslatedText();
+        }
 
+        throw new CharacterPowerTranslationException("Invalid ISO-639-1 Locale [" + locale + " ] for translating [" + power + "]");
     }
 
 

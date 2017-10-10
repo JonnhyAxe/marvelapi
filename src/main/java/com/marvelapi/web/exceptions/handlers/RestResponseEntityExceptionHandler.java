@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.marvelapi.web.exceptions.CharacterPowerTranslationException;
 import com.marvelapi.web.exceptions.CharactersNotFoundException;
 
 /**
@@ -47,7 +48,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return handleExceptionInternal(ex, message(HttpStatus.BAD_REQUEST, ex), headers, HttpStatus.BAD_REQUEST, request);
     }
 
-    @ExceptionHandler(value = { CharactersNotFoundException.class })
+    @ExceptionHandler(value = { CharactersNotFoundException.class, CharacterPowerTranslationException.class })
     protected final ResponseEntity<Object> handleBadRequest(final RuntimeException ex, final WebRequest request) {
 
         return handleExceptionInternal(ex, message(HttpStatus.BAD_REQUEST, ex), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);

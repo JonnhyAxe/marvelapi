@@ -16,7 +16,6 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @PropertySource("classpath:application.properties")
-// @ComponentScan({ "com.marvelapi.services" })
 public class MarvelAPIConfig {
 
 

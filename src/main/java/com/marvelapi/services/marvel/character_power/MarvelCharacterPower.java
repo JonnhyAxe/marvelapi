@@ -20,7 +20,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.marvelapi.config.MarvelAPIConfig;
@@ -33,7 +32,7 @@ import com.swagger.marvelapi.services.marvel.model.Url;
  *
  */
 @Component
-@Scope("singleton")
+// @Scope("singleton")
 public class MarvelCharacterPower implements CharacterPowerIdentity {
 
     private static final Logger logger = LoggerFactory.getLogger(MarvelCharacterPower.class);
@@ -105,13 +104,6 @@ public class MarvelCharacterPower implements CharacterPowerIdentity {
             return powerText;
         }
 
-        // DesiredCapabilities caps = new DesiredCapabilities();
-        // caps.setJavascriptEnabled(true);
-        // caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
-        // phantomExecutor);
-        //
-        // driver = new PhantomJSDriver(caps);
-        // driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         Optional<Url> wikiURL = characterId.getUrls().stream().filter(url -> url.getType().equals(WIKI_TYPE_URL)).findFirst();
         if (wikiURL.isPresent() && Objects.nonNull(wikiURL.get().getUrl())) {
@@ -130,7 +122,7 @@ public class MarvelCharacterPower implements CharacterPowerIdentity {
 
         }
         else {
-            logger.debug("Wiki do not exist " + characterId.getId());
+            logger.debug("Wiki do not exist for character id " + characterId.getId());
         }
         logger.debug("Power  " + characterId.getId() + " is " + powerText);
         return powerText;
