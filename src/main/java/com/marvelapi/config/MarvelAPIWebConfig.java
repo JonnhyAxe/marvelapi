@@ -1,17 +1,25 @@
 package com.marvelapi.config;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
 
 /**
  * Configuration file for web related beans
@@ -38,6 +46,31 @@ public class MarvelAPIWebConfig extends WebMvcConfigurationSupport {
 
         converters.add(customJackson2HttpMessageConverter());
         super.addDefaultHttpMessageConverters(converters);
+    }
+
+    @Bean // Enabling and configuring Swagger
+    public Docket mainConfig() { // @formatter:off
+
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select().apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
+                .build()
+                .pathMapping("/")
+                .directModelSubstitute(LocalDate.class, String.class)
+                .genericModelSubstitutes(ResponseEntity.class); // The model
+                                                                // data rather
+                                                                // Spring
+                                                                // specific
+                                                                // artifacts
+    }// @formatter:on
+
+    //
+
+    @Override
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+
+        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
 }
