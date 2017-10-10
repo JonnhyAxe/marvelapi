@@ -29,7 +29,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.context.annotation.Profile;
 
 //
-@Profile("live")
+@Profile("apis")
 public class MarvelAPISeleniumLoadTest {
 
     private static WebDriver driver;

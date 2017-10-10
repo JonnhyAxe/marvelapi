@@ -17,6 +17,8 @@ import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -33,6 +35,8 @@ import com.swagger.marvelapi.services.marvel.model.Url;
 @Component
 @Scope("singleton")
 public class MarvelCharacterPower implements CharacterPowerIdentity {
+
+    private static final Logger logger = LoggerFactory.getLogger(MarvelCharacterPower.class);
 
     /**
      *
@@ -92,7 +96,7 @@ public class MarvelCharacterPower implements CharacterPowerIdentity {
      * getCharcaterPower(java.lang.Character)
      */
     @Override
-    public String getCharacterPower(Character characterId) {
+    public synchronized String getCharacterPower(Character characterId) {
 
         String powerText = null;
         By powerDiv = By.id(marvelAPIConfig.getCharacterPowerWiki());
@@ -123,11 +127,12 @@ public class MarvelCharacterPower implements CharacterPowerIdentity {
                 powerText = (String) ((JavascriptExecutor) driver).executeScript(DIV_INNER_TEXT, searchButton);
 
             }
+
         }
         else {
-            System.out.println("Wiki do not exist " + characterId.getId());
+            logger.debug("Wiki do not exist " + characterId.getId());
         }
-
+        logger.debug("Power  " + characterId.getId() + " is " + powerText);
         return powerText;
     }
 

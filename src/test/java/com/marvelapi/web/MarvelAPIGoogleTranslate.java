@@ -29,7 +29,7 @@ import com.marvelapi.config.MarvelAPIConfig;
  * Google Translator API for Marvel API
  *
  */
-@Profile("live")
+@Profile("apis")
 @PropertySource("classpath:application.properties")
 public class MarvelAPIGoogleTranslate {
 

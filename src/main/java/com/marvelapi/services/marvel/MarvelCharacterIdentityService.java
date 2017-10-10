@@ -12,6 +12,8 @@ import java.util.stream.IntStream;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
@@ -32,6 +34,8 @@ import com.swagger.marvelapi.services.marvel.model.Image;
  */
 @Service
 public class MarvelCharacterIdentityService implements CharacterIdentity {
+
+    private static final Logger logger = LoggerFactory.getLogger(MarvelCharacterIdentityService.class);
 
     @Autowired
     private ExecutorService executor;
@@ -90,18 +94,23 @@ public class MarvelCharacterIdentityService implements CharacterIdentity {
             charactersPowers = new ConcurrentHashMap<>(totalCharacters);
 
             int calls = totalCharacters != null ? (int) Math.round(totalCharacters / 100.00) : 0;
+            logger.debug("Executing {} ", calls);
             if (Objects.nonNull(totalCharacters) && calls > 0) {
                 response.getData().getResults().parallelStream().forEach(c -> characters.put(c.getId(), c));
                 IntStream.iterate(marvelAPIConfig.getOffset(), i -> i + marvelAPIConfig.getOffset()).limit(calls).forEach(ic);
+                logger.debug("Wainting for all threads to execute ");
                 executor.awaitTermination(300, TimeUnit.SECONDS);
 
             }
         }
         catch (InterruptedException | ResourceAccessException ex) { // TODO: log exception
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
+
         }
 
-        System.out.println("MarvelCharacterIdentityService finished " + characters.size());
+        logger.debug("MarvelCharacterIdentityService finished with character " + characters.size());
+        logger.debug("and charactersPowers " + charactersPowers.size());
+
     }
 
     /**
@@ -113,8 +122,9 @@ public class MarvelCharacterIdentityService implements CharacterIdentity {
         final CharacterDataWrapper localResponse = getCharacters(localOffset, marvelAPIConfig.getTs(), marvelAPIConfig.getApikey(),
                 marvelAPIConfig.getHash());
         localResponse.getData().getResults().parallelStream().forEach(c -> characters.put(c.getId(), c));
-
-        localResponse.getData().getResults().forEach(myCharacterPowerConsumer);
+        logger.debug("Finish Collecting Characters");
+        // localResponse.getData().getResults().forEach(myCharacterPowerConsumer);
+        // logger.debug("Finish Collecting Characters' power");
     }
 
     /**
