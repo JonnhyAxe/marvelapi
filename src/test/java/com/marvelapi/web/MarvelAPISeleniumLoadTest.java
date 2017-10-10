@@ -26,10 +26,9 @@ import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.context.annotation.Profile;
 
 //
-@Profile("apis")
+//@Profile("apis")
 public class MarvelAPISeleniumLoadTest {
 
     private static WebDriver driver;

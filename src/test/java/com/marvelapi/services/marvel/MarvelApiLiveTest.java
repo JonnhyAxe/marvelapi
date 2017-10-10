@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
@@ -30,7 +29,7 @@ import com.swagger.marvelapi.services.marvel.model.CharacterDataWrapper;
  * Test Suite for Marvel REST Api live testing
  *
  */
-@Profile("live")
+// @Profile("live")
 @RunWith(SpringJUnit4ClassRunner.class)
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 @ContextConfiguration(classes = { MarvelApiLiveTestConfig.class, MarvelExternalAPIConfig.class, MarvelAPIConfig.class }, loader = AnnotationConfigContextLoader.class)

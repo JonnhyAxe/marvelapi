@@ -8,7 +8,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -21,7 +20,7 @@ import com.marvelapi.web.exceptions.CharacterPowerTranslationException;
  * Test suite for PowerGoogleTranslatorLiveTest
  *
  */
-@Profile("live")
+// @Profile("live")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { MarvelApiCharacterPowerGoogleTranslator.class }, loader = AnnotationConfigContextLoader.class)
 public class MarvelApiCharacterPowerGoogleTranslatorLiveTest {
